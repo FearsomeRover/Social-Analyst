@@ -72,7 +72,7 @@ async function fetchSubredditPostAndComments(post: string) {
     const postContent = data[0].data.children[0].data.selftext || "";
 
     // Extract the text of each comment
-    const commentsText = [postContent]; // Start with the original post's content
+    const commentsText: string[] = []; // Start with the original post's content
     data[1].data.children.forEach((child: any) => {
       if (child.data.body) {
         commentsText.push(child.data.body);
@@ -80,7 +80,8 @@ async function fetchSubredditPostAndComments(post: string) {
     });
 
     // Join all comments and the original post's content into one paragraph
-    const combinedText = commentsText.join(" ");
+    const combinedText =
+      "POST TEXT:\n" + postContent + "\nCOMMENTS:\n" + commentsText.join(" ");
     return {
       postData: {
         score: score,

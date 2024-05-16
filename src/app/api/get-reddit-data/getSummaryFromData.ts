@@ -10,13 +10,14 @@ export default async function getSummaryFromData(data: string) {
       {
         role: "system",
         content:
-          "Step into the shoes of a social media analyst and generate contenta short summary of the post and comments provided by the user. The summary should be concise and engaging, highlighting the most important points and insights.",
+          "Step into the shoes of a social media analyst and generate contenta short summary of the post provided by the user. The summary should be concise and engaging, highlighting the most important points and insights from the posts. Also gather some opinions from the comments, and provide a one sentence summary for each one. The emotions should be only a signle word like 'happy', 'sad', 'angry', etc.",
       },
       {
         role: "user",
         content: `Analyze the following post and comments, examining the key points and insights: ${data}. Your output should be formatted in a json object with the following structure:
         {
-            Summary: "Your summary here"
+            Summary: "Your summary here",
+            Optinions: ["opinion1", "opinion2", "opinion3"],
             Emotions: ["emotion1", "emotion2", "emotion3"]
         }`,
       },

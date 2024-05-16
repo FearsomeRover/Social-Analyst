@@ -12,6 +12,7 @@ import animation from "@/animation/wave-loader.json";
 export default function Home() {
   const [result, setResult] = useState<RedditResponse | null>(null);
   const [loading, setLoading] = useState(false);
+  const [link, setLink] = useState<string>("");
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
@@ -22,6 +23,7 @@ export default function Home() {
         return;
       }
       setLoading(true);
+      setLink(url);
       const res = await fetch("/api/get-reddit-data", {
         method: "POST",
         headers: {
@@ -38,42 +40,45 @@ export default function Home() {
     return <Lottie animationData={animation} />;
   }
   return (
-    <div className="mx-auto w-full max-w-md space-y-6">
-      {result ? (
-        <>
-          <button
-            onClick={() => setResult(null)}
-            className="absolute bottom-4 left-4 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none bg-black text-white h-10 px-4 py-2 w-fit"
-          >
-            Go Back
-          </button>
-          <div className="flex flex-col gap-4 items-center justify-center">
-            <PostCard postData={result.postData} />
-            <AnalysisCard
-              analysis={result.analysis.Summary}
-              emotions={result.analysis.Emotions}
-            />
-          </div>
-        </>
-      ) : (
-        <>
-          <div className="space-y-2 text-center">
-            <h1 className="text-3xl font-bold tracking-tight sm:text-4xl text-black">
-              Social Media Analyst
-            </h1>
-            <p className="text-gray-500">
-              Enter a social media link to get insights.
-            </p>
-          </div>
-          <form className="space-y-4" onSubmit={handleSubmit}>
-            <div className="relative">
-              <LinkIcon className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
-              <Input placeholder="Enter a social media link" type="text" />
+    <div className="mx-auto w-full max-w-md space-y-6 items-center">
+      <div className="w-fit">
+        {result ? (
+          <>
+            <button
+              onClick={() => setResult(null)}
+              className="absolute bottom-4 left-4 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none bg-black text-white h-10 px-4 py-2 w-fit"
+            >
+              Go Back
+            </button>
+            <div className="flex flex-col gap-4 items-center justify-center">
+              <PostCard postData={result.postData} link={link} />
+              <AnalysisCard
+                analysis={result.analysis.Summary}
+                emotions={result.analysis.Emotions}
+                opinions={result.analysis.Opinions}
+              />
             </div>
-            <Button>Get Insights</Button>
-          </form>
-        </>
-      )}
+          </>
+        ) : (
+          <>
+            <div className="space-y-2 text-center">
+              <h1 className="text-3xl font-bold tracking-tight sm:text-4xl text-black">
+                Social Media Analyst
+              </h1>
+              <p className="text-gray-500">
+                Enter a social media link to get insights.
+              </p>
+            </div>
+            <form className="space-y-4" onSubmit={handleSubmit}>
+              <div className="relative">
+                <LinkIcon className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
+                <Input placeholder="Enter a social media link" type="text" />
+              </div>
+              <Button>Get Insights</Button>
+            </form>
+          </>
+        )}
+      </div>
     </div>
   );
 }

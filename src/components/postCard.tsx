@@ -1,10 +1,16 @@
 import { PostData } from "@/types/redditResponse";
 
-export default function PostCard({ postData }: { postData: PostData }) {
+export default function PostCard({
+  postData,
+  link,
+}: {
+  postData: PostData;
+  link: string;
+}) {
   return (
     <a
-      className="flex items-center justify-between border border-gray-300 p-4 rounded-md bg-white"
-      href={postData.link}
+      className="flex items-center justify-between border border-gray-300 p-4 rounded-md bg-white w-full"
+      href={link}
       target="_blank"
     >
       <div className="flex items-center space-x-4">

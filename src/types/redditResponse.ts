@@ -7,9 +7,9 @@ export type PostData = {
   comments: number;
   username: string;
   title: string;
-  link: string;
 };
 export type AnalysisData = {
   Summary: string;
   Emotions: string[];
+  Opinions: string[];
 };
